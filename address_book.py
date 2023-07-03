@@ -13,6 +13,9 @@ class Contacts:
         self.zip_code = zip_code
         self.phone_number = phone_number
 
+    def details(self):
+        return self.last_name, self.city, self.state, self.zip_code, self.phone_number
+
 
 class AddressBook:
     def __init__(self, ab_name):
@@ -20,10 +23,10 @@ class AddressBook:
         self.ab_name = ab_name
 
     def add_contacts(self, contacts_obj):
-        self.contacts_dict.update({contacts_obj.first_name: contacts_obj})
+        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.details()})
 
     def update_contacts(self, contacts_obj):
-        self.contacts_dict.update({contacts_obj.first_name: contacts_obj}) and print(
+        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.details()}) and print(
             "Contact Updated...") if contacts_obj.first_name in self.contacts_dict else print(
             "No Contacts Found...")
 
@@ -32,8 +35,8 @@ class AddressBook:
             "Contacts Deleted...") if first_name in self.contacts_dict else print("No Contacts Found...")
 
     def display(self):
-        for i, j in self.contacts_dict.items():
-            print(i, " : ", j)
+        for i in self.contacts_dict:
+            print(i, " : ", self.contacts_dict.get(i))
 
 
 class Multiple_AddressBook:
@@ -55,7 +58,7 @@ class Multiple_AddressBook:
 
     def get_addressbook(self):
         for i, j in self.multiple_dict.items():
-            print(i, " : ", j)
+            print(i, " : ", len(j.contacts_dict))
 
 
 def _add_details():
