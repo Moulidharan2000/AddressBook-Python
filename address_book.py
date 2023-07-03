@@ -61,28 +61,6 @@ class Multiple_AddressBook:
             print(i, " : ", len(j.contacts_dict))
 
 
-class Multiple_AddressBook:
-
-    def __init__(self):
-        self.multiple_dict = {}
-
-    def add_ab(self, addressbook_obj):
-        self.multiple_dict.update({addressbook_obj.ab_name: addressbook_obj})
-
-    def update_ab(self, addressbook_obj):
-        self.multiple_dict.update({addressbook_obj.ab_name: addressbook_obj}) and print(
-            "Address Book Updated...") if addressbook_obj.ab_name in self.multiple_dict else print(
-            "No Address Book Found...")
-
-    def delete_ab(self, ab_name):
-        self.multiple_dict.pop(ab_name) and print(
-            "Address Book Deleted...") if ab_name in self.multiple_dict else print("No Address Book Found...")
-
-    def get_addressbook(self):
-        for i, j in self.multiple_dict.items():
-            print(i, " : ", j)
-
-
 def _add_details():
     ab_name = input("Enter the Address Book Name : ")
     address_book = multiple_ab.multiple_dict.get(ab_name)
