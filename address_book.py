@@ -1,3 +1,5 @@
+import csv
+import json
 import logging
 
 logging.basicConfig(level=logging.INFO, filename="AddressBook_Logs.log", filemode="w",
@@ -13,9 +15,6 @@ class Contacts:
         self.zip_code = zip_code
         self.phone_number = phone_number
 
-    def details(self):
-        return self.last_name, self.city, self.state, self.zip_code, self.phone_number
-
 
 class AddressBook:
     def __init__(self, ab_name):
@@ -23,10 +22,10 @@ class AddressBook:
         self.ab_name = ab_name
 
     def add_contacts(self, contacts_obj):
-        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.details()})
+        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.__dict__})
 
     def update_contacts(self, contacts_obj):
-        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.details()}) and print(
+        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.__dict__}) and print(
             "Contact Updated...") if contacts_obj.first_name in self.contacts_dict else print(
             "No Contacts Found...")
 
@@ -58,7 +57,27 @@ class Multiple_AddressBook:
 
     def get_addressbook(self):
         for i, j in self.multiple_dict.items():
-            print(i, " : ", len(j.contacts_dict))
+            print(i, " : ", j.contacts_dict)
+
+    def write_json(self):
+        json_dict = {}
+        for i, j in self.multiple_dict.items():
+            contact_json = {}
+            json_dict.update({i: contact_json})
+            for x, y in j.contacts_dict.items():
+                contact_json.update({x: y})
+        with open('Address_details.json', 'w') as json_file:
+            json.dump(json_dict, json_file, indent=4)
+
+    def write_csv(self):
+        with open('Address_details.csv', 'w', newline='') as csv_file:
+            fieldnames = ['addressbook_name', 'first_name', 'last_name', 'city', 'state', 'zip_code', 'phone_number']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+            for x, y in self.multiple_dict.items():
+                for i in y.contacts_dict.values():
+                    i.update({'addressbook_name': x})
+                    writer.writerow(i)
 
 
 def _add_details():
@@ -80,12 +99,16 @@ def _add():
     contacts, address_book = _add_details()
     address_book.add_contacts(contacts)
     multiple_ab.add_ab(address_book)
+    multiple_ab.write_json()
+    multiple_ab.write_csv()
 
 
 def _update():
     contacts, address_book = _add_details()
     address_book.update_contacts(contacts)
     multiple_ab.update_ab(address_book)
+    multiple_ab.write_json()
+    multiple_ab.write_csv()
 
 
 def _delete_contacts():
@@ -94,6 +117,8 @@ def _delete_contacts():
     if address_book:
         first_name = input("Enter the First Name : ")
         address_book.delete_contacts(first_name)
+        multiple_ab.write_json()
+        multiple_ab.write_csv()
     else:
         print("No Address Book Found...")
 
@@ -101,6 +126,8 @@ def _delete_contacts():
 def _delete_addressbook():
     ab_name = input("Enter the Address Book Name : ")
     multiple_ab.delete_ab(ab_name)
+    multiple_ab.write_json()
+    multiple_ab.write_csv()
 
 
 def _display_contacts():
