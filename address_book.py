@@ -25,8 +25,8 @@ class AddressBook:
         self.contacts_dict.update({contacts_obj.first_name: contacts_obj.__dict__})
 
     def update_contacts(self, contacts_obj):
-        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.__dict__}) and print(
-            "Contact Updated...") if contacts_obj.first_name in self.contacts_dict else print(
+        self.contacts_dict.update({contacts_obj.first_name: contacts_obj.__dict__})
+        print("Contact Updated...") if contacts_obj.first_name in self.contacts_dict else print(
             "No Contacts Found...")
 
     def delete_contacts(self, first_name):
@@ -47,8 +47,8 @@ class Multiple_AddressBook:
         self.multiple_dict.update({addressbook_obj.ab_name: addressbook_obj})
 
     def update_ab(self, addressbook_obj):
-        self.multiple_dict.update({addressbook_obj.ab_name: addressbook_obj}) and print(
-            "Address Book Updated...") if addressbook_obj.ab_name in self.multiple_dict else print(
+        self.multiple_dict.update({addressbook_obj.ab_name: addressbook_obj})
+        print("Address Book Updated...") if addressbook_obj.ab_name in self.multiple_dict else print(
             "No Address Book Found...")
 
     def delete_ab(self, ab_name):
